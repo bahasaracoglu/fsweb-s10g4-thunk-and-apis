@@ -28,7 +28,10 @@ export function myReducer(state = initial, action) {
       return { ...state, fav: state.favs.push(action.payload) };
 
     case FAV_REMOVE:
-      return state;
+      return {
+        ...state,
+        favs: state.favs.filter((item) => item.key !== action.payload),
+      };
 
     case FETCH_SUCCESS:
       console.log("fetchsucces", action.payload);
