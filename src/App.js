@@ -10,6 +10,8 @@ export default function App() {
   const loading = useSelector((store) => store.loading);
   const current = useSelector((store) => store.current);
   const favs = useSelector((store) => store.favs);
+  const onlist = useSelector((store) => store.onlist);
+
   // console.log(current);
   const [favsChange, setFavsChange] = useState(true); // Yeni değişken tanımlama
   return (
@@ -51,7 +53,8 @@ export default function App() {
                 dispatch(addFav(current));
                 setFavsChange(!favsChange); // Değişikliği tetikle
               }}
-              className="select-none px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white"
+              disabled={onlist}
+              className="select-none px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Favorilere ekle
             </button>

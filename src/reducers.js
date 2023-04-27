@@ -12,6 +12,7 @@ const initial = {
   current: null,
   error: null,
   loading: false,
+  onlist: false,
 };
 
 function writeFavsToLocalStorage(state) {
@@ -25,7 +26,18 @@ function readFavsFromLocalStorage() {
 export function myReducer(state = initial, action) {
   switch (action.type) {
     case FAV_ADD:
-      return { ...state, fav: state.favs.push(action.payload) };
+      const isAlreadyInFavorites = state.favs.some(
+        (item) => item === action.payload
+      );
+      if (isAlreadyInFavorites) {
+        return { ...state, onlist: true };
+      } else {
+        return {
+          ...state,
+          favs: [...state.favs, action.payload],
+          onlist: true,
+        };
+      }
 
     case FAV_REMOVE:
       return {
@@ -35,7 +47,7 @@ export function myReducer(state = initial, action) {
 
     case FETCH_SUCCESS:
       console.log("fetchsucces", action.payload);
-      return { ...state, current: action.payload };
+      return { ...state, current: action.payload, onlist: false };
 
     case FETCH_LOADING:
       return { ...state, loading: action.payload };
