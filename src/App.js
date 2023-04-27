@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
 import Item from "./components/Item";
 import FavItem from "./components/FavItem";
@@ -11,6 +11,10 @@ export default function App() {
   const current = useSelector((store) => store.current);
   const favs = useSelector((store) => store.favs);
   const onlist = useSelector((store) => store.onlist);
+
+  useEffect(() => {
+    dispatch(fetchAnother());
+  }, []);
 
   // console.log(current);
   const [favsChange, setFavsChange] = useState(true); // Yeni değişken tanımlama
