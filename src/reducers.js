@@ -11,7 +11,7 @@ const initial = {
   favs: [],
   current: null,
   error: null,
-  loading: true,
+  loading: false,
 };
 
 function writeFavsToLocalStorage(state) {
@@ -31,13 +31,14 @@ export function myReducer(state = initial, action) {
       return state;
 
     case FETCH_SUCCESS:
-      return state;
+      console.log("fetchsucces", action.payload);
+      return { ...state, current: action.payload };
 
     case FETCH_LOADING:
-      return state;
+      return { ...state, loading: action.payload };
 
     case FETCH_ERROR:
-      return state;
+      return { ...state, error: action.payload };
 
     case GET_FAVS_FROM_LS:
       return state;
