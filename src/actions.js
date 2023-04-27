@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const GET_FAVS_FROM_LS = "GET_FAVS_FROM_LS";
+export const REMOVE_FAVS_FROM_LS = "REMOVE_FAVS_FROM_LS";
 export const FAV_ADD = "FAV_ADD";
 export const FAV_REMOVE = "FAV_REMOVE";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
@@ -9,6 +10,10 @@ export const FETCH_ERROR = "FETCH_ERROR";
 
 export const getFavsFromLocalStorage = () => {
   return { type: GET_FAVS_FROM_LS };
+};
+
+export const removeFavsFromLocalStorage = () => {
+  return { type: REMOVE_FAVS_FROM_LS };
 };
 
 export const addFav = (info) => {

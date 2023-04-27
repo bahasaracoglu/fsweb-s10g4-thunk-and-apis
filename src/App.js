@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
 import Item from "./components/Item";
 import FavItem from "./components/FavItem";
-import { addFav, fetchAnother, getFavsFromLocalStorage } from "./actions";
+import {
+  addFav,
+  fetchAnother,
+  getFavsFromLocalStorage,
+  removeFavsFromLocalStorage,
+} from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function App() {
@@ -55,6 +60,14 @@ export default function App() {
 
           <div className="flex gap-3 justify-end py-3">
             <button
+              onClick={() => dispatch(removeFavsFromLocalStorage())}
+              className="select-none px-4 py-2 bg-red-700 hover:bg-blue-600 text-white  disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={loading}
+            >
+              Favorileri Sil
+            </button>
+
+            <button
               onClick={() => dispatch(fetchAnother())}
               className="select-none px-4 py-2 border border-blue-700 text-blue-700 hover:border-blue-500 hover:text-blue-500 disabled:opacity-50 disabled:cursor-not-allowed "
               disabled={loading}
@@ -65,7 +78,7 @@ export default function App() {
               onClick={() => {
                 dispatch(addFav(current));
                 setFavsChange(!favsChange); // Değişikliği tetikle
-                setTimeout(() => dispatch(fetchAnother()), 2500);
+                setTimeout(() => dispatch(fetchAnother()), 1500);
               }}
               disabled={onlist}
               className="select-none px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"

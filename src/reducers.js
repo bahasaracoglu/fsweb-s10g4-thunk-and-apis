@@ -8,6 +8,7 @@ import {
   FETCH_ERROR,
   GET_FAVS_FROM_LS,
   fetchAnother,
+  REMOVE_FAVS_FROM_LS,
 } from "./actions";
 
 const initial = {
@@ -70,6 +71,10 @@ export function myReducer(state = initial, action) {
       } else {
         return state;
       }
+    case REMOVE_FAVS_FROM_LS:
+      localStorage.clear();
+      return { ...state, favs: [] };
+
     default:
       return state;
   }
