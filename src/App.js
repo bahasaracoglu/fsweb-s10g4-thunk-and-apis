@@ -17,6 +17,11 @@ export default function App() {
     dispatch(getFavsFromLocalStorage());
   }, []);
 
+  const handleAddFavorite = () => {
+    dispatch(addFav(current));
+    setFavsChange(!favsChange); // Değişikliği tetikle
+  };
+
   // console.log(current);
   const [favsChange, setFavsChange] = useState(true); // Yeni değişken tanımlama
   return (
@@ -42,14 +47,17 @@ export default function App() {
       <Switch>
         <Route exact path="/">
           {loading && (
-            <div className="bg-white p-6 text-center shadow-md">YÜKLENİYOR</div>
+            <div className="bg-white  p-6 text-center shadow-md">
+              YÜKLENİYOR
+            </div>
           )}
           {current && !loading && <Item data={current} />}
 
           <div className="flex gap-3 justify-end py-3">
             <button
               onClick={() => dispatch(fetchAnother())}
-              className="select-none px-4 py-2 border border-blue-700 text-blue-700 hover:border-blue-500 hover:text-blue-500"
+              className="select-none px-4 py-2 border border-blue-700 text-blue-700 hover:border-blue-500 hover:text-blue-500 disabled:opacity-50 disabled:cursor-not-allowed "
+              disabled={loading}
             >
               Başka bir tane
             </button>
@@ -57,6 +65,7 @@ export default function App() {
               onClick={() => {
                 dispatch(addFav(current));
                 setFavsChange(!favsChange); // Değişikliği tetikle
+                setTimeout(() => dispatch(fetchAnother()), 2500);
               }}
               disabled={onlist}
               className="select-none px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"

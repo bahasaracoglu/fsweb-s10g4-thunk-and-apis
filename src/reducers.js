@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 import {
   FAV_ADD,
   FAV_REMOVE,
@@ -5,6 +7,7 @@ import {
   FETCH_LOADING,
   FETCH_ERROR,
   GET_FAVS_FROM_LS,
+  fetchAnother,
 } from "./actions";
 
 const initial = {
@@ -39,6 +42,8 @@ export function myReducer(state = initial, action) {
         };
 
         writeFavsToLocalStorage(updatedState.favs);
+        toast.success("Favorilere eklendi!");
+
         return updatedState;
       }
 
