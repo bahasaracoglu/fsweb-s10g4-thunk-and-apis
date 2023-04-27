@@ -15,12 +15,12 @@ const initial = {
   onlist: false,
 };
 
-function writeFavsToLocalStorage(state) {
-  localStorage.setItem("s10g4", JSON.stringify(state.favs));
+function writeFavsToLocalStorage(favs) {
+  localStorage.setItem("favorites", JSON.stringify(favs));
 }
 
 function readFavsFromLocalStorage() {
-  return JSON.parse(localStorage.getItem("s10g4"));
+  return JSON.parse(localStorage.getItem("favorites"));
 }
 
 export function myReducer(state = initial, action) {
@@ -32,11 +32,14 @@ export function myReducer(state = initial, action) {
       if (isAlreadyInFavorites) {
         return { ...state, onlist: true };
       } else {
-        return {
+        const updatedState = {
           ...state,
           favs: [...state.favs, action.payload],
           onlist: true,
         };
+
+        writeFavsToLocalStorage(updatedState.favs);
+        return updatedState;
       }
 
     case FAV_REMOVE:
@@ -46,7 +49,6 @@ export function myReducer(state = initial, action) {
       };
 
     case FETCH_SUCCESS:
-      console.log("fetchsucces", action.payload);
       return { ...state, current: action.payload, onlist: false };
 
     case FETCH_LOADING:
@@ -56,8 +58,13 @@ export function myReducer(state = initial, action) {
       return { ...state, error: action.payload };
 
     case GET_FAVS_FROM_LS:
-      return state;
-
+      const savedFavs = readFavsFromLocalStorage();
+      if (savedFavs) {
+        const updatedState = { ...state, favs: savedFavs };
+        return updatedState;
+      } else {
+        return state;
+      }
     default:
       return state;
   }

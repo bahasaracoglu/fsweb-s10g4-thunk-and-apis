@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
 import Item from "./components/Item";
 import FavItem from "./components/FavItem";
-import { addFav, fetchAnother } from "./actions";
+import { addFav, fetchAnother, getFavsFromLocalStorage } from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function App() {
@@ -14,6 +14,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(fetchAnother());
+    dispatch(getFavsFromLocalStorage());
   }, []);
 
   // console.log(current);
