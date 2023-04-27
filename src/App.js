@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
 import Item from "./components/Item";
 import FavItem from "./components/FavItem";
-import { fetchAnother } from "./actions";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { addFav, fetchAnother } from "./actions";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function App() {
+  const dispatch = useDispatch();
   const loading = useSelector((store) => store.loading);
   const current = useSelector((store) => store.current);
-  const dispatch = useDispatch();
-  const favs = [];
+  const favs = useSelector((store) => store.favs);
   // console.log(current);
-
-  function addToFavs() {}
-
+  const [favsChange, setFavsChange] = useState(true); // Yeni değişken tanımlama
   return (
     <div className="wrapper max-w-xl mx-auto px-4">
       <nav className="flex text-2xl pb-6 pt-8 gap-2 justify-center">
@@ -49,7 +47,10 @@ export default function App() {
               Başka bir tane
             </button>
             <button
-              onClick={addToFavs}
+              onClick={() => {
+                dispatch(addFav(current));
+                setFavsChange(!favsChange); // Değişikliği tetikle
+              }}
               className="select-none px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white"
             >
               Favorilere ekle
@@ -60,9 +61,7 @@ export default function App() {
         <Route path="/favs">
           <div className="flex flex-col gap-3">
             {favs.length > 0 ? (
-              favs.map((item) => (
-                <FavItem key={item.key} id={item.key} title={item.activity} />
-              ))
+              favs.map((item) => <FavItem key={item.key} item={item} />)
             ) : (
               <div className="bg-white p-6 text-center shadow-md">
                 Henüz bir favoriniz yok

@@ -22,7 +22,7 @@ export const removeFav = (id) => {
 export const fetchAnother = () => (dispatch) => {
   dispatch({ type: FETCH_LOADING, payload: true });
   return axios
-    .get("https://catfact.ninja/fact")
+    .get("http://www.boredapi.com/api/activity/")
     .then((res) => {
       dispatch({ type: FETCH_SUCCESS, payload: res.data });
       dispatch({ type: FETCH_LOADING, payload: false });
